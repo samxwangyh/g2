@@ -1,0 +1,640 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>G2 by orefalo</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>G2</h1>
+        <p>g2 is your new git command line client</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/orefalo/g2" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/orefalo/g2/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/orefalo/g2/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p><img src="http://orefalo.github.com/g2/images/G2.jpg" alt="image"></p>
+
+<h2>Introduction</h2>
+
+<p>I see it every day, beginners have a hard time picking up <strong>git</strong>. Aside from the DSCM concepts, the command line is not easy: it is aimed at people who know git.. advanced nerds, not beginners.</p>
+
+<p>This project is an attempt to make the git command line a friendly place: it eases the learning process by providing guidance and high level commands.</p>
+
+<h3>Benefits</h3>
+
+<ul>
+<li>
+<strong>g2</strong> helps setup git settings : sshkeys, username, email &amp; tools.</li>
+<li>
+<strong>g2</strong> warns before any destructive operation.</li>
+<li>
+<strong>g2</strong> provides two letter acronyms for most commands.</li>
+<li>
+<strong>g2</strong> provides a reduced set of commands which give guidance on what to do next.</li>
+<li>
+<strong>g2</strong> enhances command line experience with TAB completion &amp; a smart prompt.</li>
+<li>
+<strong>g2</strong> warns when a branch history was changed on the server (forced pushed).</li>
+<li>
+<strong>g2</strong> checks the fresheshness of the branch prior to merging.</li>
+<li>
+<strong>g2</strong> enforces new commands to force developers into a clean linear history.</li>
+<li>
+<strong>g2</strong> requires a clean state before rebasing, checking out, branching or merging.</li>
+<li>
+<strong>g2</strong> provides guidance when it cannot perform an operation.</li>
+<li>
+<strong>g2</strong> brings a number of friendly commands such as : panic, sync, freeze, wip.</li>
+<li>
+<strong>g2</strong> eases branch creation.</li>
+</ul><h3>What G2 is not</h3>
+
+<ul>
+<li>A replacement for <strong>git</strong>. Rather, g2 is a layer on top of git</li>
+<li>A magic way to learn GIT. It will help by providing guidance but you will still need to understand how git works.</li>
+</ul><h2>Installation</h2>
+
+<p><strong>PRE-REQUISITES</strong>: </p>
+
+<ul>
+<li>
+<strong>g2</strong> is a layer on top of git, If you are doing a manual install, a recent version of git must be pre-installed.</li>
+<li>Please backup your favorite ~/.gitconfig as g2 with recreate it from scratch.</li>
+</ul><h3>Linux (RedHat/Ubuntu):</h3>
+
+<p>Please clone the repository, edit either <strong>/etc/bashrc</strong>, <strong>/etc/bash.bashrc</strong> or <strong>~/.bashrc</strong> and add the following code:</p>
+
+<pre><code>[[ $PS1 &amp;&amp; -f /path/to/g2-install.sh ]] &amp;&amp; \
+     . /path/to/g2-install.sh
+</code></pre>
+
+<h3>MacOS:</h3>
+
+<p>Same as Linux, make the change in <code>~/.bash_profile</code></p>
+
+<p>The software will soon be available via a <a href="http://mxcl.github.com/homebrew/">HomeBrew</a> package, stay tuned.</p>
+
+<h3>Solaris (Partially tested):</h3>
+
+<p>Add the following script to <strong>/etc/bashrc</strong> or <strong>~/.bashrc</strong> (or any other file sourcing those).</p>
+
+<pre><code>PATH=/usr/xpg4/bin:$PATH
+export PATH
+[[ $PS1 &amp;&amp; -f /path/to/g2-install.sh ]] &amp;&amp; \
+     . /path/to/g2-install.sh
+</code></pre>
+
+<h3>Windows:</h3>
+
+<p>Git is not a prerequisit on windows as the installer comes bundled with it.</p>
+
+<p>Please download the Windows native installer from <a href="https://github.com/downloads/orefalo/g2/Git-1.7.10.exe">https://github.com/downloads/orefalo/g2/Git-1.7.10.exe</a>.</p>
+
+<h2>How to use</h2>
+
+<p>The project introduces the <code>g</code> alias. Taken without parameters it displays the following output.</p>
+
+<pre><code>$ g
+Usage:
+    abort - aborts any rebase/merge
+    am &lt;?-f&gt; - amends last commit with staging area
+    br &lt;?branch&gt; - list or create branches
+    bs - bisect
+    co &lt;branch&gt; - switches branch (either local/remote)
+    cp &lt;commit&gt; - cherry-pick
+    ci &lt;?params...&gt; - commit
+    clone &lt;url&gt; - clone a remote repository
+    df/dt &lt;?params...&gt; - compares files
+    fetch - synchronizes remote branches
+    freeze/unfreeze &lt;?-m comment&gt; &lt;?file&gt; - freeze/unfreeze files
+    gc - garbage collects: run fsck &amp; gc
+    gp - grep
+    gui - launches the GUI
+    ig &lt;file&gt; - adds to gitignore &amp; removes from source control
+    init &lt;folder&gt; - init a repository
+    key &lt;?-gen&gt; - displays/generates your ssh public key
+    mg &lt;?params...&gt; &lt;branch&gt; - merge
+    mt &lt;?params...&gt; - fixes conflicts by opening a visual mergetool
+    mv - move (rename) a file
+    lg - displays commit log
+    ls &lt;?params...&gt; - list files under source control
+    panic - gets you back on HEAD, cleans all untracked files
+    pull/push &lt;?opts&gt; &lt;remote&gt; &lt;branch&gt; - deals with other branches
+    rb &lt;?params...&gt; &lt;branch&gt; - rebase
+    rm &lt;params...&gt; - remove
+    rs &lt;params...&gt; - reset
+    rs upstream - resets branch to upstream state
+    rt &lt;?params...&gt; - remote
+    rv &lt;commit&gt; - revert
+    setup - configures user, key, editor, tools
+    sh &lt;?-deep&gt; - show commit contents
+    sm &lt;?params...&gt; - submodule
+    st &lt;?params...&gt; - status
+    sync - syncs working branch: fetch, rebase &amp; push
+    tg - tag
+    track &lt;?upstream_branch&gt; - shows/set tracking
+    wip/unwip - save/restore work in progress to branch
+</code></pre>
+
+<p>On top of providing two letters acronyms for most git commands, <strong>g2</strong> has interesting features which enhance command line experience.</p>
+
+<h3>Setup</h3>
+
+<p><code>g setup</code> and <code>g key</code> are two handy commands to setup username, email, keys, editor and tooling.</p>
+
+<p><img src="http://orefalo.github.com/g2/images/setup.png" alt="image"></p>
+
+<p>At anytime, you may display your ssh key with: <code>g key</code></p>
+
+<pre><code>$ git key
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDYUTgzU9zjsdda9WBEED5bH+SVMq5bYoIxPSzop2IqUBoyyOlRdHt4dy2r/MWiB2eKQOQmPRE7SeawhFWYbCwEdi6BtEe8m4PiZd3OIRV13TlPj54Hi6Q1Ab8emEAH026L4kwef46+j0aJf/7tZzUw/uZW9Wrnf1VN+J1VlWvmYaG9JpPBuatAlTV9rhCeQ2WO39KYWVYJxH1mO0zPEpuTBojji7HYJtlS4OCKgY9mCVBPiUzzLfmrlIhZz+k5rMWv6i4tQtats23qtHEOi9GxJm4+TSGLwM89/C186CJ+8Yx0g/c2DIbVtPm2VMwUayu8wU4GfBHtOwin4cLWsvT orefalo@dummy.com
+</code></pre>
+
+<p>Should you need to regenerate the key pair, the process is equally user friendly: use <code>g key -gen</code></p>
+
+<pre><code>$ git key -gen
+Regenerate SSH Key (y/n)? y
+Generating SSH keys...
+Generating public/private rsa key pair.
+/Users/orefalo/.ssh/id_rsa already exists.
+Overwrite (y/n)? y
+Your identification has been saved in /Users/orefalo/.ssh/id_rsa.
+Your public key has been saved in /Users/orefalo/.ssh/id_rsa.pub.
+The key fingerprint is:
+57:60:84:fa:0e:3b:96:12:15:2e:f3:d5:30:ce:aa:4f orefalo@yahoo.com
+The key's randomart image is:
++--[ RSA 2048]----+
+|         o+      |
+|      . +. .     |
+|     . = +  .    |
+|    o + + ..     |
+|     = +S .      |
+|    . + ..       |
+|     oE=         |
+|    o.= .        |
+|     +..         |
++-----------------+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDYUTgzU9zjsdda9WBEED5bH+SVMq5bYoIxPSzop2IqUBoyyOlRdHt4dy2r/MWiB2eKQOQmPRE7SeawhFWYbCwEdi6BtEe8m4PiZd3OIRV13TlPj54Hi6Q1Ab8emEAH026L4kwef46+j0aJf/7tZzUw/uZW9Wrnf1VN+J1VlWvmYaG9JpPBuatAlTV9rhCeQ2WO39KYWVYJxH1mO0zPEpuTBojji7HYJtlS4OCKgY9mCVBPiUzzLfmrlIhZz+k5rMWv6i4tQtats23qtHEOi9GxJm4+TSGLwM89/C186CJ+8Yx0g/c2DIbVtPm2VMwUayu8wU4GfBHtOwin4cLWsvT orefalo@yahoo.com
+</code></pre>
+
+<h3>Basic commands</h3>
+
+<p>Git is often referenced as a content SCM, that freezes the state of a folder. 
+So rather than providing a <code>git add</code> and <code>git rm</code>, <strong>g2</strong> introduces the <code>freeze</code> and <code>unfreeze</code> commands.</p>
+
+<p>Without arguments, <code>freeze</code> literally freezes the state of the workspace into the staging area. The content can later be committed with the <code>ci</code> command or unfrozen with <code>unfreeze</code>.</p>
+
+<p>Finally the most common git commands <code>g st</code> and <code>g lg</code> have been enhanced to display a nice colorized outputs.</p>
+
+<p><img src="http://orefalo.github.com/g2/images/lg.png" alt="image"></p>
+
+<h3>Panic!</h3>
+
+<p>It happened to all of us. You try a new command (like a rebase) and things didn't work as expected. "Wait a minutes, what's that blinking led light on the flight panel? Where is the manual?". Suddenly, you feel the necessity to hunt an expert advise. Bad luck he's  either not available, there no-one to help you! "Damn it ! I wish I never run that command!".</p>
+
+<p>Believe it or not, your are Panicking…</p>
+
+<p>Well, here comes <code>g panic</code></p>
+
+<p><code>panic</code> checks out the last good state (HEAD) and removes all files not under source control, leaving a clean workspace to resume from. It's the easiest way to get you back on track and ready to work. No more cood sweats.</p>
+
+<h3>Tracking</h3>
+
+<p>A <strong>tracking branch</strong> is a local branch that is connected to a remote branch. When you synchronize on that branch, it automatically pushes and pulls to the remote branch that it is connected with.</p>
+
+<p><strong>g2</strong> provides a handy command to display and set tracking: <code>g track</code></p>
+
+<p><img src="http://orefalo.github.com/g2/images/track.png" alt="image"></p>
+
+<p>By default, it displays the tracking table. The command accepts a parameter to set tracking for the working branch. Say you want to track local branch <em>devel</em> with <em>origin/devel</em>.<br>
+Switch to the devel branch and type <code>g track origin/devel</code></p>
+
+<h3>Branching</h3>
+
+<p>Displaying the list of branches is achieved with the branch <code>g br</code> command. Note how it provides details not only about the local and remote branches, but also about the state of these branches when compared to the status on the server.</p>
+
+<pre><code>$ g br
+  gh-pages
+* master
+  remotes/origin/HEAD -&gt; origin/master
+  remotes/origin/gh-pages
+  remotes/origin/master
+---
+gh-pages (ahead 0) | (behind 0) origin/gh-pages
+master (ahead 0) | (behind 0) origin/master
+</code></pre>
+
+<p>Give it a parameter and it will create a new branch. <strong>g2</strong> will prompt if you want to create a matching remote branch and setup tracking accordingly.</p>
+
+<p>Use checkout <code>d co</code> to switch to that branch.</p>
+
+<pre><code>$ g br NEW_branch
+(M=6c1fc *1) orefalo@OLIVIERS-IMAC 
+$ g br
+  NEW_branch
+  gh-pages
+* master
+  remotes/origin/HEAD -&gt; origin/master
+  remotes/origin/gh-pages
+  remotes/origin/master
+---
+gh-pages (ahead 0) | (behind 0) origin/gh-pages
+master (ahead 0) | (behind 0) origin/master
+$ g co NEW_branch 
+Switched to branch 'NEW_branch'
+$ 
+</code></pre>
+
+<p>If you are familiar with git, this is no rocket science. There is however a hidden gem which might save you headaches going forward: <strong>g2</strong> is extremely strict when it comes to switching branches.</p>
+
+<p>You can only switch branch from a stable state. A <em>stable state</em> means: <strong>no modified files, no staged files</strong>. Should you have any changes, <strong>g2</strong> will complain with the following message</p>
+
+<pre><code>fatal: some files were changed on this branch, either commit &lt;ci&gt;, &lt;wip&gt; or &lt;panic&gt;.
+</code></pre>
+
+<h3>Working with remotes</h3>
+
+<p>Before introducing one of the main <strong>g2</strong> features, let me talk about what you should <strong>not</strong> do.<br>
+Look at these graphs taken from various projects on github. Note how the branches overlap...</p>
+
+<p><img src="http://orefalo.github.com/g2/images/h2.jpg" alt="image"><img src="http://orefalo.github.com/g2/images/h3.jpg" alt="image"></p>
+
+<p>Looks familiar? This is unfortunately the consequence of multiple people working on the same branch. Wouldn't it be nicer to have straight lines, with segments showing only when feature branch is merged?  In fact, git provides all the tooling to get around these ugly loops, but as you can see... few people know about it ;-/</p>
+
+<p>So what's a clean history, would you ask?</p>
+
+<p>With <strong>g2</strong> however, the graphs above are not likely to happen. <strong>g2</strong> enforces two different scenarios, each backed by a different command.</p>
+
+<p>First the scenarios:</p>
+
+<ol>
+<li>Saving your code into its working branch</li>
+<li>Merging features from other branches: As the project evolves other features may need to be merged in.</li>
+</ol><p>The matching commands are <code>g sync</code> and <code>g pull</code>, here is how to use them:</p>
+
+<ul>
+<li>Use <code>g sync</code> to synchronize the current branch. The command doesn't take any parameters because it uses the tracking table to figure the remote/branch. To enforce a clean linear history, the changes are always appended to the end of the branch. Once completed, the changes are sent back to the server.</li>
+</ul><p>For the git expert, the command issues a <em>fetch, a rebase and a push</em> with a multitude of validation in between. For instance, it will stop if the remote history was changed; also it won't push a wip commit (see below).</p>
+
+<ul>
+<li>Use <code>g pull</code> when merging contents from a feature branches.</li>
+</ul><h3>History changes</h3>
+
+<p><strong>g2</strong> is not permissive when it comes to switching branches, amending or rebasing.
+  Unless given the <code>-f</code> flag, it will block any attempts untill the workspace is in a "clean" state.</p>
+
+<p>You can easily get to a clean state by using <code>g panic</code></p>
+
+<h3>Work in progress</h3>
+
+<p>When developing, saving the <em>work in progress</em> is common. How many times do you have to switch branch to troubleshoot another issue?</p>
+
+<p>git <em>stash</em> typically comes to the rescue in that situation. But unless you provide a well detailed comment (which nobody does!), you loose track of which branches the stash applied to.</p>
+
+<p>That's why <strong>g2</strong> introduces <code>wip</code> and <code>unwip</code>. Two handy commands that you will learn to love. See below and note how a wip commit is created on your current branch.</p>
+
+<pre><code>$ g st
+## master
+MM README.md
+M  g2-prompt.sh
+(M=000f0 +2 *1) orefalo@OLIVIERS-IMAC 
+$ g wip
+[master 0dcbfb3] wip
+ 2 files changed, 31 insertions(+), 13 deletions(-)
+(M=0dcbf) orefalo@OLIVIERS-IMAC 
+$ g lg
+* 0dcbfb3 - (HEAD, master) wip (5 seconds ago) &lt;Olivier Refalo&gt;
+* 000f060 - (origin/master, origin/HEAD) fix freeze and wip (5 hours ago) &lt;Olivier Refalo&gt;
+* b44487e - adding gui &amp; freeze -m (6 hours ago) &lt;Olivier Refalo&gt;
+* 7acd770 - documentation, removed undo (24 hours ago) &lt;Olivier Refalo&gt;
+* a248217 - first commit (3 days ago) &lt;Olivier Refalo&gt;
+* 5fa2c06 - initial commit (3 days ago) &lt;Olivier Refalo&gt;
+$ g unwip
+Unstaged changes after reset:
+M   README.md
+M   g2-prompt.sh
+$
+</code></pre>
+
+<p>But how good is a wip commit if it behaves just like any other commit? The point is, it's not a regular commit:</p>
+
+<ul>
+<li>A wip commit <strong>CANNOT</strong> be <strong>merged, pulled, pushed or synched</strong>. You <strong>cannot commit</strong> on top of it either. It's a real "work in progress" that is meant to be <code>unwip</code> at some point.</li>
+</ul><h1>List of Commands</h1>
+
+<h3>abort</h3>
+
+<p>Aborts either a rebase or a merge.</p>
+
+<h3>am (?-f)</h3>
+
+<p>Amends last commit with contents from the staging area.<br>
+Won't amend if top commit was pushed unless the <code>-f</code> flag is given.</p>
+
+<h3>br &lt;?branch&gt;</h3>
+
+<p>Displays the list of branches, local and remote.<br>
+Can create new branches if given a branch name.</p>
+
+<h3>bs / bisect</h3>
+
+<p>One of git best tool: <code>bisect</code></p>
+
+<h3>clone (url)</h3>
+
+<p>Clones a remote repository, wires to <code>git clone</code></p>
+
+<h3>co/checkout (branch)</h3>
+
+<p>Switches branch (either local/remote)<br>
+extremely strict - won't let you checkout if you have changes or untracked files</p>
+
+<h3>cp/cherry-pick (commit)</h3>
+
+<p>Cherry picks a commit from another branch, same as <code>git cherry-pick</code></p>
+
+<h3>ci/commit (?params...)</h3>
+
+<p>Commits the contents of the staging area. Won't commit on top of a WIP.</p>
+
+<h3>df/diff (?params…)</h3>
+
+<p>Compares files on the console, wires to <code>diff</code></p>
+
+<h3>dt/difftool (?params…)</h3>
+
+<p>Compares files by opening the default diff GUI, wires to <code>difftool</code></p>
+
+<h3>freeze (?-m msg) (?file)</h3>
+
+<p>Takes all <strong>modified, deleted and untracked</strong> files to the staging area.<br>
+You may also specify which file to stage.</p>
+
+<p>Note that you may also give it the file to stage.</p>
+
+<h3>gc</h3>
+
+<p>Repository maintenance: prunes obsolete remote branches then a structure check <code>fsck</code> followed by a garbage collector <code>gc</code></p>
+
+<h3>gp/grep</h3>
+
+<p>Searches commits, same as <code>git grep</code></p>
+
+<h3>ig (-file)</h3>
+
+<p>Adds to gitignore &amp; removes file from source control</p>
+
+<h3>init (-folder)</h3>
+
+<p>Creates a local repository, wires to <code>git init</code></p>
+
+<h3>key (?-gen)</h3>
+
+<p>Displays the public ssh key.<br>
+Give it the <code>--gen</code> flag and it will generate a new key.</p>
+
+<h3>mg/merge (?params...) (branch)</h3>
+
+<p>Merges branches, same as <code>git merge</code></p>
+
+<h3>mt/mergetool (?params...)</h3>
+
+<p>Fixes conflicts by opening a visual mergetool</p>
+
+<h3>mv</h3>
+
+<p>Moves (renames) a file under source control. same as <code>git mv</code></p>
+
+<h3>lg/log</h3>
+
+<p>By default, displays commit log in a pretty colorized format. Any extra parameter wires to   to <code>git log</code>.</p>
+
+<pre><code>$ git lg
+* adbd444 - docs wording improvement pass (3 days ago) &lt;David Greenspan&gt;
+* 2edb152 - make tests work in IE 6-10, MobileSafari (3 days ago) &lt;David Greenspan&gt;
+*   7a05b13 - Merge pull request #64 from skalb/devel (3 days ago) &lt;matt debergalis&gt;
+|\  
+| * 9ebb67a - Function passed to Meteor.ui.render must return a string. (3 days ago) &lt;Sameer Kalburgi&gt;
+* | e2eadee - Use correct variable name when logging a less error (3 days ago) &lt;Josh McArthur&gt;
+* |   32266f5 - Merge pull request #62 from milesmatthias/docupdate (3 days ago) &lt;matt debergalis&gt;
+|\ \  
+| * | 6d57f14 - Added a note about how to read the docs locally, since it took me a while to figure out how to do it. (8 days ago) &lt;Miles Matthias&gt;
+* | | d28ed89 - This is allow any user added script in their header to be able to use the libraries in Meteor. For example including a plugin would have to be always written a
+* | |   7d269cd - Merge branch 'http' into devel (3 days ago) &lt;Nick Martin&gt;
+|\ \ \  
+| * | | cde4a4a - (origin/http) First pass at HTTP docs. (3 days ago) &lt;David Greenspan&gt;
+| * | | 0f2673f - initial commit of HTTP package (4 days ago) &lt;David Greenspan&gt;
+|/ / /  
+* | |   e1a557f - Merge branch 'test-fixups' into devel (4 days ago) &lt;Nick Martin&gt;
+|\ \ \  
+| * | | d7fe7c9 - have test driver report FAIL if exception anywhere (4 days ago) &lt;David Greenspan&gt;
+| * | | e68f9d1 - Remove old busted selenium tests, and move cli tests out of the way. (4 days ago) &lt;Nick Martin&gt;
+| * | | b3bdb87 - async_multi: catch exceptions in expect, prevent multi-fail (4 days ago) &lt;David Greenspan&gt;
+</code></pre>
+
+<h3>ls/ls-files (?params…)</h3>
+
+<p>List files under source control, wires to <code>git ls-files</code></p>
+
+<h3>panic</h3>
+
+<p>Lost, confused? Can't figure what state you are in? Use <code>panic</code>!</p>
+
+<p><code>panic</code> will checkout the latest stable state (HEAD) and remove all file not under source control, leaving a fresh clean workspace.</p>
+
+<h3>pull (?opts) (remote) (branch)</h3>
+
+<p>Merges another branch with the current.<br>
+Please use <code>sync</code> to synchronize your local branch.</p>
+
+<h3>push (?-f) (?opts) (remote) (branch)</h3>
+
+<p>Sends commits to a remote git repository/branch</p>
+
+<h3>rb/rebase (?params…) (branch)</h3>
+
+<p>Rebases the branch, same as <code>git rb</code></p>
+
+<h3>rm (params…)</h3>
+
+<p>Removes a file from source control, same as <code>git rm</code></p>
+
+<h3>rs/reset (params…)</h3>
+
+<p>Resets the branch to a different state. same as <code>git reset</code></p>
+
+<p><code>$ g rs upstream</code> </p>
+
+<h3>rt/remote (?params…)</h3>
+
+<p>Used to add/remove remotes, same as <code>git remote</code></p>
+
+<h3>rv/revert (commit)</h3>
+
+<p>Reverts a commit, same as <code>git revert</code></p>
+
+<h3>setup</h3>
+
+<p>Configures user, key, editor &amp; tools by prompting the user.</p>
+
+<h3>sh/show (?-deep) (?commit)</h3>
+
+<p>Shows details about the given commit, defaults to HEAD<br>
+When <code>-deep</code> is given, shows the diff.</p>
+
+<h3>st/status (?params…)</h3>
+
+<p>Probably the most common command: give details about what changed since last commit.</p>
+
+<pre><code>$ git st
+</code></pre>
+
+<h3>sm/submodule (?params…)</h3>
+
+<p>Same as <code>git submodule</code></p>
+
+<h3>sync</h3>
+
+<p>Synchronizes the current branch with the one of the server.
+syncs working branch: fetch, pull-rebase &amp; push</p>
+
+<h3>tg/tag</h3>
+
+<p>Tags a state, wires to <code>git tag</code></p>
+
+<h3>track (?upstream_branch)</h3>
+
+<p>Gives information about the tracking table. This table is very important: it tells how local/remote branches are interconnected.</p>
+
+<pre><code>$ g track
+local: master &lt;--sync--&gt; remote: origin/master
+--Remotes---
+origin  git@github.com:orefalo/g2.git (fetch)
+origin  git@github.com:orefalo/g2.git (push)
+</code></pre>
+
+<p>Should you need to change the tracking, just pass the new destination as a parameter</p>
+
+<pre><code>$ g track origin/NEW_branch
+local: master &lt;--sync--&gt; remote: origin/NEW_branch
+--Remotes---
+origin  git@github.com:orefalo/g2.git (fetch)
+origin  git@github.com:orefalo/g2.git (push)
+</code></pre>
+
+<h3>pull</h3>
+
+<p>won't pull on a WIP
+won't pull from the tracking branch
+Will ask to setup tracking if not set</p>
+
+<h3>push</h3>
+
+<p>won't push a WIP
+won't push to the tracking branch
+Will ask to setup tracking if not set</p>
+
+<h3>unfreeze (?file)</h3>
+
+<p>Unfreezes the files from the staging area back into the workspace.</p>
+
+<h3>unwip</h3>
+
+<p>Unstacks a WIP from the history into the workspace.</p>
+
+<h3>wip</h3>
+
+<p>Easy way to save your WIP (Work In Progress). Stacks all current changes as a commit on the history.</p>
+
+<h2>FAQ</h2>
+
+<h3>Why "g2" ?</h3>
+
+<ul>
+<li>
+<code>g</code> is the command, and it obviously comes from <strong>git</strong>
+</li>
+<li>
+<code>2</code> because most of the actions are two letters long.</li>
+</ul><h3>There is no stash ?</h3>
+
+<p>No, not for now. With commands <code>wip</code> and <code>unwip</code>, the stash brings little benefits. You can always cherry pick from one branch to another.</p>
+
+<h3>Is it a new git-flow ?</h3>
+
+<p>No, <strong>g2</strong> doesn't enforce any branching policy.  </p>
+
+<h3>What if my favorite command is missing?</h3>
+
+<p>Please notify us via the project issue tracker. For the time being, please use <code>$GIT_EXE</code></p>
+
+<h2>Credits</h2>
+
+<p>Author: <a href="https://github.com/orefalo">Olivier Refalo</a></p>
+
+<ul>
+<li>Contains a modified version of <a href="http://volnitsky.com/project/git-prompt/">git-prompt</a> - Leonid Volnitsky</li>
+<li>Contains a modified version of git-completion.bash - Shawn O. Pearce</li>
+<li>
+<a href="https://github.com/saintsjd/gum">GUM</a> by saintsjd. Wonder why this project feelt short on delivery.</li>
+</ul><h2>License</h2>
+
+<p>Distributed under the GNU General Public License, version 2.0.</p>
+
+<h2>TODO</h2>
+
+<ul>
+<li>shunit2 the project</li>
+<li>some completions are not properly working - git push origin  not working ?</li>
+<li>completion, rename __git to avoid conflicts</li>
+<li>g mode</li>
+<li>g as - aliasing</li>
+<li>introduce g2 options - panic exlcudes, count files in prompt</li>
+</ul>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/orefalo">orefalo</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-31082333-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
