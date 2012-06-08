@@ -63,7 +63,7 @@ var commands = [
 	right: "index",
 	direction: "up",
 	cmd: "freeze",
-	docs: "Freeze all files in the repository to the index, thus staging that content for inclusion in the next commit."
+	docs: "Freeze all files in the repository to the index, thus staging that content for inclusion in the next commit. Also accept a specific path as parameter"
 },
 
 {
@@ -71,14 +71,7 @@ var commands = [
 	right: "local_repo",
 	direction: "up",
 	cmd: "freeze -m 'msg'",
-	docs: "Commit all files changed since your last commit, except untracked files (ie. all files that are already listed in the index). " + "Remove files in the index that have been removed from the workspace."
-},
-{
-	left: "workspace",
-	right: "index",
-	direction: "up",
-	cmd: "freeze <file... or dir...>",
-	docs: "Adds the current content of new or modified files to the index, thus staging that content for inclusion in the next commit."
+	docs: "Commit all files changed since your last commit, except un-tracked files (ie. all files that are already listed in the index). " + "Remove files in the index that have been removed from the workspace."
 },
 
 {
@@ -94,7 +87,7 @@ var commands = [
 	right: "index",
 	direction: "up",
 	cmd: "wip",
-	docs: "Perfect for saving the work in progress, saves the state of the workspace into the index as a wip commit, wip commits can't be merged, pulled, pushed or synched."
+	docs: "Perfect for saving the work in progress, saves the state of the workspace into the index as a wip commit, wip commits can't be merged, pulled, pushed or synced."
 },
 {
 	left: "workspace",
@@ -128,7 +121,7 @@ var commands = [
 	left: "workspace",
 	right: "local_repo",
 	direction: "dn",
-	cmd: "ud/undo <file...>",
+	cmd: "undo <file...>",
 	docs: "Reverts the file in the workspace, overwriting any local changes."
 },
 
@@ -136,7 +129,7 @@ var commands = [
 	left: "index",
 	right: "local_repo",
 	direction: "dn",
-	cmd: "ud/undo commit",
+	cmd: "undo commit",
 	docs: "Undo the last commit, leaving changes in the the index. Only applies if commit is local, -f to force undo."
 },
 
@@ -207,7 +200,7 @@ var commands = [
 	right: "local_repo",
 	direction: "status",
 	cmd: "lg/log",
-	docs: 'By default, shows a graph of your recent commits/merges. With a parametr, show recent commits,' + ' most recent on top. Options:' + '--decorate    with branch and tag names on appropriate commits' + '--stat        with stats (files changed, insertions, and deletions)' + '--author=foo  only by a certain author' + '--after="MMM DD YYYY" ex. ("Jun 20 2008") only commits after a certain date' + '--before="MMM DD YYYY" only commits that occur before a certain date' + '--merge       only the commits involved in the current merge conflicts'
+	docs: 'By default, shows a graph of your recent commits/merges. With a parameter, show recent commits,' + ' most recent on top. Options:' + '--decorate    with branch and tag names on appropriate commits' + '--stat        with stats (files changed, insertions, and deletions)' + '--author=foo  only by a certain author' + '--after="MMM DD YYYY" ex. ("Jun 20 2008") only commits after a certain date' + '--before="MMM DD YYYY" only commits that occur before a certain date' + '--merge       only the commits involved in the current merge conflicts'
 },
 {
 	left: "local_repo",
@@ -271,7 +264,9 @@ var commands = [
 	right: "remote_repo",
 	direction: "up",
 	cmd: "sync",
-	docs: 'update the server with your commits across all branches that are *COMMON* between your local copy and the server.' + 'Local branches that were never pushed to the server in the first place are not shared'
+	docs: 'Ensures your local branch and the sever branch are synchronized.' +
+		  ' Auto-appends changes to the tip of the branch to enforce a clean linear history.' +
+		  ' Internally, runs a fetch, a rebase and finally a push.'
 },
 {
 	left: "local_repo",
@@ -293,14 +288,21 @@ var commands = [
 	right: "workspace",
 	direction: "status",
 	cmd: "mt/mergetool",
-	docs: 'Fires the visual merge tool to resolv merge conflicts. Once completed, use <continue> or <abort>.'
+	docs: 'Opens each conflicting file with the visual merge tool. Once completed, use <continue> or <abort>.'
 },
 {
 	left: "workspace",
 	right: "workspace",
 	direction: "status",
 	cmd: "continue",
-	docs: 'Resumes a conflicts resolution.'
+	docs: 'Resumes a conflicts resolution (merge/rebase).'
+},
+{
+	left: "workspace",
+	right: "workspace",
+	direction: "status",
+	cmd: "abort",
+	docs: 'Abort an ongoing merge or rebase. '
 },
 {
 	left: "workspace",

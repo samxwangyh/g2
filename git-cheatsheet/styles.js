@@ -50,7 +50,7 @@ var css = {
     '#diagram': {
         marginTop: 20,
         position: 'relative',
-        height: '700px',
+        height: '820px',
         padding: '1px 0'
     },
     '.loc': {
@@ -65,7 +65,7 @@ var css = {
             border: '1px dashed white',
             'border-top': 'none',
             width: 10,
-            height: '600px'
+            height: '750px'
         },
         'label': {
             position: 'absolute',
@@ -255,7 +255,7 @@ var css = {
     },
     '#remote_repo .bar, #local_repo .bar': {
       top: 85,
-	  height: '570px'
+	  height: '710px'
     }
 };
 
