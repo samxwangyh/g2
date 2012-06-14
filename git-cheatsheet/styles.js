@@ -1,9 +1,9 @@
 var colors = {
-    stash: '#bf3030',
+    stash: '#c2a66a',
 	workspace: '#1ECCE3',
     index: '#79E329',
 	local_repo: '#cd0074',
-    remote_repo:'#BFC423'
+    remote_repo:'#63819c'
 }
 
 
@@ -39,7 +39,7 @@ var css = {
             paddingTop: 3,
             textAlign: 'right',
             color: colors.local_repo,
-            font: 'normal 25px ImpactLabelReversedRegular,ImpactLabelRegular,  verdana'
+            font: 'normal 25px ImpactLabelRegular,ImpactLabelReversedRegular,  verdana'
         },
         h6: {
             textAlign: 'right',
@@ -47,6 +47,19 @@ var css = {
             font: '15px courier, monospaced'
         }
     },
+	'#hd2': {
+		'*': {
+			margin: "auto",
+			padding: 0
+
+		},
+		p: {
+			font: 'normal 22px ImpactLabelReversedRegular, ImpactLabelReversedRegular, verdana',
+			textAlign: 'center',
+			color: colors.local_repo,
+			paddingBottom: 8
+		}
+	},
     '#diagram': {
         marginTop: 20,
         position: 'relative',
