@@ -403,7 +403,7 @@ $(function() {
 		}
 	}
 
-	$('[data-docs],.loc').live('mouseover', function() {
+	$('[data-docs],.loc').live('click', function() {
 		var $info = $('#info');
 		$info.find('.cmd,.doc').empty();
 
