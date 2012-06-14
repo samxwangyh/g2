@@ -84,14 +84,14 @@ var commands = [
 
 {
 	left: "workspace",
-	right: "index",
+	right: "local_repo",
 	direction: "up",
 	cmd: "wip",
 	docs: "Perfect for saving the work in progress, saves the state of the workspace into the index as a wip commit, wip commits can't be merged, pulled, pushed or synced."
 },
 {
 	left: "workspace",
-	right: "index",
+	right: "local_repo",
 	direction: "dn",
 	cmd: "unwip",
 	docs: "Unstacks the wip commit at the tip of the branch into the workspace."
