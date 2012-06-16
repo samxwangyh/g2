@@ -16,8 +16,7 @@ var c;
 var css = {
     'html,body': {
         margin: 0,
-        padding: 0,
-        background: 'url(/images/vCanvas.jpg)'
+        padding: 0
     },
     'a,a:link,a:visited': {
         color: colors.local_repo,
@@ -266,7 +265,7 @@ var css = {
             color: 'black'.lighten(30)
         }
     },
-    '#remote_repo .bar, #local_repo .bar': {
+    '#index .bar, #remote_repo .bar, #local_repo .bar': {
       top: 85,
 	  height: '710px'
     }

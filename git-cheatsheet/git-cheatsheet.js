@@ -34,14 +34,14 @@ var commands = [
 	right: "index",
 	direction: "status",
 	cmd: "st/status",
-	docs: "Displays paths that have differences between the index file and the current HEAD commit, paths that have differences between the workspace and the index file, and paths in the workspace that are not under source control."
+	docs: "Displays the list of differences with the local repository. This includes modified files, new and deleted files. But also files with are not under source control."
 },
 {
 	left: "workspace",
 	right: "index",
 	direction: "status",
 	cmd: "df/diff",
-	docs: "Displays the differences not added to the index."
+	docs: "Displays the differences not added to the staging area."
 },
 {
 	left: "workspace",
@@ -63,7 +63,7 @@ var commands = [
 	right: "index",
 	direction: "up",
 	cmd: "freeze",
-	docs: "Freeze all files in the repository to the index, thus staging that content for inclusion in the next commit. Also accept a specific path as parameter"
+	docs: "Freeze all files in the repository to the staging area, thus staging that content for inclusion in the next commit. Also accept a specific path as parameter"
 },
 
 {
@@ -71,7 +71,7 @@ var commands = [
 	right: "local_repo",
 	direction: "up",
 	cmd: "freeze -m 'msg'",
-	docs: "Commit all files changed since your last commit, except un-tracked files (ie. all files that are already listed in the index). " + "Remove files in the index that have been removed from the workspace."
+	docs: "Commit all files changed since your last commit, including deleted and un-tracked files. "
 },
 
 {
@@ -79,7 +79,7 @@ var commands = [
 	right: "index",
 	direction: "dn",
 	cmd: "unfreeze",
-	docs: "Adds the current content of modified (NOT NEW) files to the index.  This is similar to what 'git commit -a' does in preparation for making a commit."
+	docs: "Moves the contents of the staging area back into the workspace. accepts a specific path as parameter."
 },
 
 {
@@ -87,7 +87,7 @@ var commands = [
 	right: "local_repo",
 	direction: "up",
 	cmd: "wip",
-	docs: "Perfect for saving the work in progress, saves the state of the workspace into the index as a wip commit, wip commits can't be merged, pulled, pushed or synced."
+	docs: "Perfect for saving the work in progress, saves the state of the workspace into the staging area as a WIP commit, wip(work in progress) commits can't be merged, pulled, pushed or synced."
 },
 {
 	left: "workspace",
@@ -101,21 +101,21 @@ var commands = [
 	right: "index",
 	direction: "up",
 	cmd: "mv <file...>",
-	docs: "Rename a file in the workspace and the index."
+	docs: "Rename a file in the workspace and the staging area."
 },
 {
 	left: "workspace",
 	right: "index",
 	direction: "up",
 	cmd: "rm <file...>",
-	docs: "Remove file in the workspace and the index."
+	docs: "Remove file in the workspace and the staging area."
 },
 {
 	left: "workspace",
 	right: "index",
 	direction: "up",
 	cmd: "ig <file... or dir...>",
-	docs: "Ignore file going forward, updates the .gitignore and remove file from the workspace and the index."
+	docs: "Ignore file going forward, updates the .gitignore and remove file from the workspace and the staging area."
 },
 {
 	left: "workspace",
@@ -130,7 +130,7 @@ var commands = [
 	right: "local_repo",
 	direction: "dn",
 	cmd: "undo commit",
-	docs: "Undo the last commit, leaving changes in the the index. Only applies if commit is local, -f to force undo."
+	docs: "Undo the last commit, leaving changes in the the staging area. Only applies if commit is local, -f to force undo."
 },
 
 {
@@ -138,7 +138,7 @@ var commands = [
 	right: "local_repo",
 	direction: "dn",
 	cmd: "co/checkout <branch or commit>",
-	docs: "Switches branches by updating the index and workspace to reflect the specified branch, <branch>, and updating HEAD to be <branch>. If <branch> doesn't exit, creates a new branch with an interactive questionnaire"
+	docs: "Switches branches. Replaces files in the workspace accordingly. Can also checkout a specific state if given the commit hash."
 },
 
 {
@@ -185,14 +185,14 @@ var commands = [
 	right: "local_repo",
 	direction: "up",
 	cmd: "ci/commit -m 'msg'",
-	docs: "Stores the current contents of the index in a new commit along with a log message from the user describing the changes."
+	docs: "Stores the current contents of the staging area in a new commit along with a log message from the user describing the changes."
 },
 {
 	left: "index",
 	right: "local_repo",
 	direction: "up",
 	cmd: "am",
-	docs: 'Amends the last commit with the current index changes. Only local commits can be amended, -f to force amend'
+	docs: 'Amends the last commit with the current staging changes. Only local commits can be amended, -f to force amend.'
 },
 
 {
@@ -200,7 +200,7 @@ var commands = [
 	right: "local_repo",
 	direction: "status",
 	cmd: "lg/log",
-	docs: 'By default, shows a graph of your recent commits/merges. With a parameter, show recent commits,' + ' most recent on top. Options:' + '--decorate    with branch and tag names on appropriate commits' + '--stat        with stats (files changed, insertions, and deletions)' + '--author=foo  only by a certain author' + '--after="MMM DD YYYY" ex. ("Jun 20 2008") only commits after a certain date' + '--before="MMM DD YYYY" only commits that occur before a certain date' + '--merge       only the commits involved in the current merge conflicts'
+	docs: 'By default, shows a graph of your recent commits/merges. With a parameter, show recent commits, most recent on top. Options: --decorate    with branch and tag names on appropriate commits' + '--stat        with stats (files changed, insertions, and deletions)' + '--author=foo  only by a certain author' + '--after="MMM DD YYYY" ex. ("Jun 20 2008") only commits after a certain date' + '--before="MMM DD YYYY" only commits that occur before a certain date' + '--merge       only the commits involved in the current merge conflicts'
 },
 {
 	left: "local_repo",
@@ -320,17 +320,10 @@ var commands = [
 },
 {
 	left: "workspace",
-	right: "local_repo",
-	direction: "dn",
-	cmd: "rs/reset --hard",
-	docs: "Matches the workspace and index to the local tree. " + "WARNING: Any changes to tracked files in the working tree since commit are lost." + "Use this if merging has resulted in conflicts and you'd like to start over." + "Pass ORIG_HEAD to undo the most recent successful merge and any changes after."
-},
-{
-	left: "workspace",
 	right: "remote_repo",
 	direction: "dn",
 	cmd: "rs/reset upstream",
-	docs: "Matches the workspace and index to the local tree. " + "WARNING: Any changes to tracked files in the working tree since commit are lost." + "Use this if merging has resulted in conflicts and you'd like to start over. Pass ORIG_HEAD to undo the most recent successful merge and any changes after."
+	docs: "Resets the branch (and the workspace) to the state of the branch on the server. the command accepts other powerful parameters."
 },
 
 {
@@ -338,35 +331,35 @@ var commands = [
 	right: "workspace",
 	direction: "status",
 	cmd: "gc",
-	docs: 'Cleans up the repository and remotes. Prunes, fscks & gabage collects the repository from loose objects.'
+	docs: 'Cleans up the repository and remotes. Prunes, fscks and garbage collects the repository from loose objects.'
 },
 
 {
 	left: "stash",
 	right: "workspace",
 	direction: "dn",
-	cmd: "stash save <name>",
+	cmd: "ss/stash save <name>",
 	docs: 'Stashes current changes. Can provide a name.'
 },
 {
 	left: "stash",
 	right: "workspace",
 	direction: "status",
-	cmd: "stash list",
+	cmd: "ss/stash list",
 	docs: "Show all stashed changes"
 },
 {
 	left: "stash",
 	right: "workspace",
 	direction: "up",
-	cmd: "stash apply <name>",
+	cmd: "ss/stash apply <name>",
 	docs: "Move changes from the specified stash into the workspace. The latest stash is the default."
 },
 {
 	left: "stash",
 	right: "workspace",
 	direction: "up",
-	cmd: "stash pop",
+	cmd: "ss/stash pop",
 	docs: 'Applies the changes from the last (or specified) stash and then removes the given stash.'
 }
 
@@ -384,7 +377,7 @@ $(function() {
 
 	var left_offset = $('#commands').offset().left;
 	for (i = 0; i < commands.length; i++) {
-		c = commands[i];
+		var c = commands[i];
 		var left = $("#" + c.left + " div.bar").offset().left - left_offset;
 		var right = $("#" + c.right + " div.bar").offset().left - left_offset;
 		var width = right - left;
