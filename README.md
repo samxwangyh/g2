@@ -215,7 +215,7 @@ gh-pages (ahead 0) | (behind 0) origin/gh-pages
 master (ahead 0) | (behind 0) origin/master
 ```
 
-Given a parameter, the command creates a new branch. **g2** walks you though the steps that will typically take git 3 to 4 commands.
+Given a parameter, the command creates a new branch. **g2** walks you through the steps that will typically take git 3 to 4 commands.
 
 ![image](http://orefalo.github.com/g2/images/newbranch.jpg)
 
